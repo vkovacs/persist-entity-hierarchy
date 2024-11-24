@@ -1,13 +1,17 @@
 package com.example.persist_entity_hierarchy.persistence;
 
 import jakarta.persistence.*;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
+@Data
 @Entity
+@Builder
 @ToString
-public class Company {
+@NoArgsConstructor
+@AllArgsConstructor
+public class DepartmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,8 +19,8 @@ public class Company {
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "company_id") // Foreign key in Department table
-    private List<Department> departments;
+    @JoinColumn(name = "department_id") // Foreign key in Employee table
+    private List<EmployeeEntity> employeeEntities;
 
     // Getters and Setters
     public Long getId() {
@@ -35,11 +39,11 @@ public class Company {
         this.name = name;
     }
 
-    public List<Department> getDepartments() {
-        return departments;
+    public List<EmployeeEntity> getEmployeeEntities() {
+        return employeeEntities;
     }
 
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
+    public void setEmployeeEntities(List<EmployeeEntity> employeeEntities) {
+        this.employeeEntities = employeeEntities;
     }
 }

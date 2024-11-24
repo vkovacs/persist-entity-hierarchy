@@ -1,22 +1,24 @@
 package com.example.persist_entity_hierarchy.persistence;
 
-import jakarta.persistence.*;
-import lombok.ToString;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 
-import java.util.List;
-
+@Data
 @Entity
+@Builder
 @ToString
-public class Department {
+@NoArgsConstructor
+@AllArgsConstructor
+public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "department_id") // Foreign key in Employee table
-    private List<Employee> employees;
+    private Double salary;
 
     // Getters and Setters
     public Long getId() {
@@ -35,11 +37,11 @@ public class Department {
         this.name = name;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
+    public Double getSalary() {
+        return salary;
     }
 
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 }

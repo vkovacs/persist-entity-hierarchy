@@ -1,10 +1,9 @@
 package com.example.persist_entity_hierarchy;
 
-import com.example.persist_entity_hierarchy.persistence.Company;
+import com.example.persist_entity_hierarchy.persistence.CompanyEntity;
 import com.example.persist_entity_hierarchy.persistence.CompanyRepository;
-import com.example.persist_entity_hierarchy.persistence.Department;
-import com.example.persist_entity_hierarchy.persistence.Employee;
-import jakarta.annotation.PostConstruct;
+import com.example.persist_entity_hierarchy.persistence.DepartmentEntity;
+import com.example.persist_entity_hierarchy.persistence.EmployeeEntity;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,25 +19,25 @@ public class CompanyService {
     @Transactional
     public void create() {
         // Create Employees
-        Employee emp1 = new Employee();
+        EmployeeEntity emp1 = new EmployeeEntity();
         emp1.setName("Alice");
         emp1.setSalary(50000.0);
 
-        Employee emp2 = new Employee();
+        EmployeeEntity emp2 = new EmployeeEntity();
         emp2.setName("Bob");
         emp2.setSalary(55000.0);
 
         // Create Department
-        Department department = new Department();
-        department.setName("IT Department");
-        department.setEmployees(Arrays.asList(emp1, emp2));
+        DepartmentEntity departmentEntity = new DepartmentEntity();
+        departmentEntity.setName("IT Department");
+        departmentEntity.setEmployeeEntities(Arrays.asList(emp1, emp2));
 
         // Create Company
-        Company company = new Company();
-        company.setName("TechCorp");
-        company.setDepartments(List.of(department));
+        CompanyEntity companyEntity = new CompanyEntity();
+        companyEntity.setName("TechCorp");
+        companyEntity.setDepartmentEntities(List.of(departmentEntity));
 
-        companyRepository.save(company);
+        companyRepository.save(companyEntity);
 
         System.out.println("---");
         System.out.println("Saved data: " + companyRepository.findAll());
