@@ -12,5 +12,6 @@ public class Application {
     @PostConstruct
     public void start() {
         companyService.createFluent();
+        companyService.query();
     }
 }

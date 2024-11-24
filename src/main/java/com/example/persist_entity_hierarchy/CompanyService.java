@@ -12,12 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
-    private final TestCompanyRepository testCompanyRepository;
+    private final List<HasName> repositoriesWithName;
 
     @Transactional
     public void create() {
@@ -41,10 +42,6 @@ public class CompanyService {
         companyEntity.setDepartmentEntities(List.of(departmentEntity));
 
         companyRepository.save(companyEntity);
-
-        System.out.println("---");
-        System.out.println("Saved data: " + companyRepository.findAll());
-        System.out.println("---");
     }
 
     @Transactional
@@ -67,13 +64,28 @@ public class CompanyService {
                 .build();
 
         companyRepository.save(fluentCompanyEntity);
+    }
+
+    @Transactional
+    public void query() {
+        CompanyEntity company = findBy("TechCorp");
+        EmployeeEntity employee = findBy("Alice");
 
         System.out.println("---");
-        System.out.println("Saved fluent data: " + testCompanyRepository.findByName("TechCorp"));
+        System.out.println("Company: " + company);
+        System.out.println("Employee: " + employee);
         System.out.println("---");
     }
 
-//    public Object findBy(String name) {
-//
-//    }
+    public <T> T findBy(String name) {
+        List<Object> results = repositoriesWithName.stream()
+                .map(repo -> repo.findByName(name))
+                .filter(Objects::nonNull)
+                .toList();
+
+        if (results.size() == 1) {
+            return (T) results.get(0);
+        }
+        throw new IllegalArgumentException("Ambiguous or not found entity!");
+    }
 }
