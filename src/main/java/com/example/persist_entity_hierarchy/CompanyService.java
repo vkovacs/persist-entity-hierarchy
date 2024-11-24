@@ -43,4 +43,30 @@ public class CompanyService {
         System.out.println("Saved data: " + companyRepository.findAll());
         System.out.println("---");
     }
+
+    @Transactional
+    public void createFluent() {
+        var fluentCompanyEntity = CompanyEntity.builder()
+                .name("TechCorp")
+                .departmentEntities(List.of(DepartmentEntity.builder()
+                        .name("IT Department")
+                        .employeeEntities(List.of(
+                                EmployeeEntity.builder()
+                                        .name("Alice")
+                                        .salary(50000.0)
+                                        .build(),
+                                EmployeeEntity.builder()
+                                        .name("Bob")
+                                        .salary(55000.0)
+                                        .build()
+                        ))
+                        .build()))
+                .build();
+
+        companyRepository.save(fluentCompanyEntity);
+
+        System.out.println("---");
+        System.out.println("Saved data: " + companyRepository.findAll());
+        System.out.println("---");
+    }
 }
