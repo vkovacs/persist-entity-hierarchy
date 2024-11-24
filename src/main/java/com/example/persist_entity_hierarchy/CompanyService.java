@@ -5,12 +5,10 @@ import com.example.persist_entity_hierarchy.persistence.CompanyRepository;
 import com.example.persist_entity_hierarchy.persistence.DepartmentEntity;
 import com.example.persist_entity_hierarchy.persistence.EmployeeEntity;
 import com.example.persist_entity_hierarchy.persistence.test.HasName;
-import com.example.persist_entity_hierarchy.persistence.test.TestCompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,47 +19,15 @@ public class CompanyService {
     private final List<HasName> repositoriesWithName;
 
     @Transactional
-    public void create() {
-        // Create Employees
-        EmployeeEntity emp1 = new EmployeeEntity();
-        emp1.setName("Alice");
-        emp1.setSalary(50000.0);
-
-        EmployeeEntity emp2 = new EmployeeEntity();
-        emp2.setName("Bob");
-        emp2.setSalary(55000.0);
-
-        // Create Department
-        DepartmentEntity departmentEntity = new DepartmentEntity();
-        departmentEntity.setName("IT Department");
-        departmentEntity.setEmployeeEntities(Arrays.asList(emp1, emp2));
-
-        // Create Company
-        CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setName("TechCorp");
-        companyEntity.setDepartmentEntities(List.of(departmentEntity));
-
-        companyRepository.save(companyEntity);
-    }
-
-    @Transactional
     public void createFluent() {
         var fluentCompanyEntity = CompanyEntity.builder()
-                .name("TechCorp")
-                .departmentEntities(List.of(DepartmentEntity.builder()
-                        .name("IT Department")
-                        .employeeEntities(List.of(
+                .name("TechCorp").departmentEntities(List.of(DepartmentEntity.builder()
+                        .name("IT Department").employeeEntities(List.of(
                                 EmployeeEntity.builder()
-                                        .name("Alice")
-                                        .salary(50000.0)
-                                        .build(),
+                                        .name("Alice").salary(50000.0).build(),
                                 EmployeeEntity.builder()
-                                        .name("Bob")
-                                        .salary(55000.0)
-                                        .build()
-                        ))
-                        .build()))
-                .build();
+                                        .name("Bob").salary(55000.0).build()
+                        )).build())).build();
 
         companyRepository.save(fluentCompanyEntity);
     }
