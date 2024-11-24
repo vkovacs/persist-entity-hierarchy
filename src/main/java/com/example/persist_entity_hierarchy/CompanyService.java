@@ -4,6 +4,8 @@ import com.example.persist_entity_hierarchy.persistence.CompanyEntity;
 import com.example.persist_entity_hierarchy.persistence.CompanyRepository;
 import com.example.persist_entity_hierarchy.persistence.DepartmentEntity;
 import com.example.persist_entity_hierarchy.persistence.EmployeeEntity;
+import com.example.persist_entity_hierarchy.persistence.test.HasName;
+import com.example.persist_entity_hierarchy.persistence.test.TestCompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    private final TestCompanyRepository testCompanyRepository;
 
     @Transactional
     public void create() {
@@ -66,7 +69,11 @@ public class CompanyService {
         companyRepository.save(fluentCompanyEntity);
 
         System.out.println("---");
-        System.out.println("Saved data: " + companyRepository.findAll());
+        System.out.println("Saved fluent data: " + testCompanyRepository.findByName("TechCorp"));
         System.out.println("---");
     }
+
+//    public Object findBy(String name) {
+//
+//    }
 }
